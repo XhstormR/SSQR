@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+    <headerType>console</headerType>
+    <jar>../build/libs/SSQR.jar</jar>
+    <outfile>../build/bin/SSQR.exe</outfile>
+    <icon>icon.ico</icon>
+    <chdir>.</chdir>
+    <errTitle>SSQR</errTitle>
+    <versionInfo>
+        <fileVersion>1.0.0.0</fileVersion>
+        <txtFileVersion>1.0.0</txtFileVersion>
+        <productVersion>1.0.0.0</productVersion>
+        <txtProductVersion>1.0.0</txtProductVersion>
+        <companyName>XhstormR</companyName>
+        <copyright>SSQR (C) 2017-2018 XhstormR</copyright>
+        <internalName>SSQR</internalName>
+        <productName>SSQR</productName>
+        <fileDescription>SSQR</fileDescription>
+        <originalFilename>SSQR.exe</originalFilename>
+        <language>ENGLISH_US</language>
+    </versionInfo>
+    <jre>
+        <minVersion>1.8.0</minVersion>
+    </jre>
+</launch4jConfig>
