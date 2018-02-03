@@ -1,5 +1,7 @@
 package com.xhstormr.ssqr
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
@@ -15,6 +17,10 @@ private object SSQR {
             DecodeHintType.CHARACTER_SET.to("UTF-8"),
             DecodeHintType.POSSIBLE_FORMATS.to(listOf(BarcodeFormat.QR_CODE))
     )
+    private val GSON: Gson = GsonBuilder()
+            .setPrettyPrinting()
+            .serializeNulls()
+            .create()
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -34,13 +40,23 @@ private object SSQR {
         val password = split[0]
         val address = split[1]
 
-        println("""
+        if (args.size > 1 && args[1] == "-json") {
+            val server = ShadowsocksServer(
+                    address,
+                    port.toInt(),
+                    method,
+                    password
+            )
+            println(GSON.toJson(server))
+        } else {
+            println("""
                 address:  $address
                 port:     $port
                 method:   $method
                 password: $password
                 """.trimIndent()
-        )
+            )
+        }
     }
 
     private fun decodeQRCode(path: String): String {

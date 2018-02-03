@@ -17,6 +17,7 @@ repositories {
 dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("com.google.zxing:core:+")
+    compile("com.google.code.gson:gson:+")
 }
 
 version = "1.0-SNAPSHOT"
