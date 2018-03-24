@@ -25,7 +25,7 @@ version = "1.0-SNAPSHOT"
 plugins {
     idea
     application
-    kotlin("jvm") version "1.2.21"
+    kotlin("jvm") version "1.2.31"
 }
 
 tasks {
@@ -52,7 +52,7 @@ tasks {
     }
 
     withType<Wrapper> {
-        gradleVersion = "4.5"
+        gradleVersion = "4.6"
         distributionType = Wrapper.DistributionType.ALL
     }
 

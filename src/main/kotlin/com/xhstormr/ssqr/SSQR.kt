@@ -13,9 +13,9 @@ import javax.imageio.ImageIO
 
 private object SSQR {
     private val HINTS: Map<DecodeHintType, Any> = mapOf(
-//          DecodeHintType.PURE_BARCODE.to(true),
-            DecodeHintType.CHARACTER_SET.to("UTF-8"),
-            DecodeHintType.POSSIBLE_FORMATS.to(listOf(BarcodeFormat.QR_CODE))
+            DecodeHintType.PURE_BARCODE to true,
+            DecodeHintType.CHARACTER_SET to "UTF-8",
+            DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
     )
     private val GSON: Gson = GsonBuilder()
             .setPrettyPrinting()
