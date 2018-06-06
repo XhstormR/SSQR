@@ -6,7 +6,6 @@
 
 ```
 D:\Download>SSQR.exe server.png
-
 address:  sga.ss8.site
 port:     18621
 method:   rc4-md5
@@ -19,4 +18,7 @@ D:\Download>SSQR.exe server.png -json
   "method": "rc4-md5",
   "password": "81681525"
 }
+
+// 从屏幕获取二维码
+D:\Download>SSQR.exe screen
 ```

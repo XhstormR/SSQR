@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
-        maven("http://maven.aliyun.com/nexus/content/groups/public/")
+        maven("http://mirrors.163.com/maven/repository/maven-public/")
     }
 
     dependencies {
@@ -11,7 +11,7 @@ buildscript {
 }
 
 repositories {
-    maven("http://maven.aliyun.com/nexus/content/groups/public/")
+    maven("http://mirrors.163.com/maven/repository/maven-public/")
 }
 
 dependencies {
@@ -25,7 +25,7 @@ version = "1.0-SNAPSHOT"
 plugins {
     idea
     application
-    kotlin("jvm") version "1.2.31"
+    kotlin("jvm") version "1.2.41"
 }
 
 tasks {
