@@ -7,10 +7,9 @@ import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
 import com.google.zxing.common.GlobalHistogramBinarizer
 import com.google.zxing.qrcode.QRCodeReader
+import com.xhstormr.ssqr.App.args
 import java.awt.image.BufferedImage
-import java.io.File
 import java.util.*
-import javax.imageio.ImageIO
 
 object SSQR {
     private val HINTS: Map<DecodeHintType, Any> = mapOf(
@@ -23,29 +22,24 @@ object SSQR {
             .serializeNulls()
             .create()
 
-    private lateinit var args: Array<String>
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-
-        if (args.isEmpty()) return
-
-        this.args = args
-
-        if (args[0] == "screen")
-            ScreenCapture.show() else decodeQRCode(ImageIO.read(File(args[0])))
-    }
-
     fun decodeQRCode(image: BufferedImage) {
 
         val bitmap = BinaryBitmap(GlobalHistogramBinarizer(BufferedImageLuminanceSource(image)))
 
         val reader = QRCodeReader()
-        val result = reader.decode(bitmap, HINTS)
+        val result = reader.decode(bitmap, HINTS).text
 
         image.flush()
 
-        val list = result.text
+        if (args.contains("-ss")) {
+            parseServer(result)
+        } else {
+            println(result)
+        }
+    }
+
+    private fun parseServer(text: String) {
+        val list = text
                 .substring(5)
                 .decodeBase64()
                 .trim()
@@ -58,7 +52,7 @@ object SSQR {
         val password = split[0]
         val address = split[1]
 
-        if (args.size > 1 && args[1] == "-json") {
+        if (args.contains("-json")) {
             val server = ShadowsocksServer(
                     address,
                     port.toInt(),

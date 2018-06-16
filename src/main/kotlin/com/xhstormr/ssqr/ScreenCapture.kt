@@ -90,7 +90,7 @@ object ScreenCapture {
         }
 
         try {
-            SSQR.decodeQRCode(screenImage.getSubimage(minX, minY, w, h))
+            App.decode(screenImage.getSubimage(minX, minY, w, h))
         } catch (e: Exception) {
             println(e.toString().substringAfterLast('.'))
             return

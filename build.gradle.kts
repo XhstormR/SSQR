@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
-        maven("http://mirrors.163.com/maven/repository/maven-public/")
+        maven("http://maven.aliyun.com/nexus/content/repositories/gradle-plugin/")
     }
 
     dependencies {
@@ -25,7 +25,7 @@ version = "1.0-SNAPSHOT"
 plugins {
     idea
     application
-    kotlin("jvm") version "1.2.41"
+    kotlin("jvm") version "1.2.50"
 }
 
 tasks {
@@ -47,12 +47,12 @@ tasks {
     withType<Jar> {
         dependsOn(beforeJar)
         version = ""
-        manifest.attributes["Main-Class"] = "com.xhstormr.ssqr.SSQR"
+        manifest.attributes["Main-Class"] = "com.xhstormr.ssqr.App"
         from(buildDir.resolve("tmp/1.txt").bufferedReader().readLines().map { zipTree(it) })
     }
 
     withType<Wrapper> {
-        gradleVersion = "4.6"
+        gradleVersion = "4.8"
         distributionType = Wrapper.DistributionType.ALL
     }
 
