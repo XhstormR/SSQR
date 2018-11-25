@@ -15,6 +15,7 @@ SSQR.exe [source] [type] [option]
     * `qr`: 解析为二维码。
     * `ocr`: 解析为文本（主要针对英文）。
 * option: 杂项。
+    * `-v2ray`: 二维码包含 V2Ray 服务器信息。
     * `-ss`: 二维码包含 Shadowsocks 服务器信息。
     * `-json`: 以 JSON 格式输出 Shadowsocks 服务器信息。
 

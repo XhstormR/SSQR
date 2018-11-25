@@ -1,31 +1,21 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-buildscript {
-    repositories {
-        maven("http://maven.aliyun.com/nexus/content/repositories/gradle-plugin/")
-    }
-
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${extra["kotlin_version"]}")
-    }
-}
-
-repositories {
-    maven("http://mirrors.163.com/maven/repository/maven-public/")
-}
-
-dependencies {
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compile("com.google.zxing:core:+")
-    compile("com.google.code.gson:gson:+")
-}
-
 version = "1.0-SNAPSHOT"
 
 plugins {
     idea
     application
-    kotlin("jvm") version "1.2.50"
+    kotlin("jvm") version "1.3.10"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile(kotlin("stdlib-jdk8"))
+    compile("com.google.zxing:core:+")
+    compile("com.google.code.gson:gson:+")
 }
 
 tasks {
@@ -52,7 +42,7 @@ tasks {
     }
 
     withType<Wrapper> {
-        gradleVersion = "4.8"
+        gradleVersion = "4.10.1"
         distributionType = Wrapper.DistributionType.ALL
     }
 
@@ -62,8 +52,9 @@ tasks {
 
     withType<JavaCompile> {
         options.encoding = "UTF-8"
+        options.isFork = true
         options.isIncremental = true
-        sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-        targetCompatibility = JavaVersion.VERSION_1_8.toString()
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
     }
 }

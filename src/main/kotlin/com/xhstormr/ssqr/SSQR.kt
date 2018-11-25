@@ -31,14 +31,25 @@ object SSQR {
 
         image.flush()
 
-        if (args.contains("-ss")) {
-            parseServer(result)
-        } else {
-            println(result)
+        when {
+            args.contains("-ss") -> parseShadowsocks(result)
+            args.contains("-v2ray") -> parseV2Ray(result)
+            else -> println(result)
         }
     }
 
-    private fun parseServer(text: String) {
+    private fun parseV2Ray(text: String) {
+        val json = text
+                .substring(8)
+                .decodeBase64()
+                .trim()
+
+        val server = GSON.fromJson(json, Any::class.java)
+
+        println(GSON.toJson(server))
+    }
+
+    private fun parseShadowsocks(text: String) {
         val list = text
                 .substring(5)
                 .decodeBase64()
