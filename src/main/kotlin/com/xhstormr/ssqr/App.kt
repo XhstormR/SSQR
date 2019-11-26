@@ -19,8 +19,8 @@ object App {
 
         this.args = args
 
-        if (args[0] == "screen")
-            ScreenCapture.show() else decode(ImageIO.read(File(args[0])))
+        if (args[0] == "screen") ScreenCapture.show()
+        else decode(ImageIO.read(File(args[0])))
     }
 
     fun decode(image: BufferedImage) {

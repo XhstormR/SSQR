@@ -1,6 +1,12 @@
 package com.xhstormr.ssqr
 
-import java.awt.*
+import java.awt.Color
+import java.awt.Cursor
+import java.awt.Graphics
+import java.awt.Point
+import java.awt.Rectangle
+import java.awt.Robot
+import java.awt.Toolkit
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.event.WindowEvent
@@ -8,6 +14,8 @@ import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.WindowConstants
+import kotlin.math.max
+import kotlin.math.min
 
 object ScreenCapture {
     private var first = true
@@ -78,10 +86,10 @@ object ScreenCapture {
     }
 
     private fun scan() {
-        val minX = Math.min(p1.x, p2.x)
-        val minY = Math.min(p1.y, p2.y)
-        val maxX = Math.max(p1.x, p2.x)
-        val maxY = Math.max(p1.y, p2.y)
+        val minX = min(p1.x, p2.x)
+        val minY = min(p1.y, p2.y)
+        val maxX = max(p1.x, p2.x)
+        val maxY = max(p1.y, p2.y)
         val w = maxX - minX
         val h = maxY - minY
 

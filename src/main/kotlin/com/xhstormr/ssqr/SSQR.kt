@@ -1,6 +1,5 @@
 package com.xhstormr.ssqr
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
@@ -9,18 +8,20 @@ import com.google.zxing.common.GlobalHistogramBinarizer
 import com.google.zxing.qrcode.QRCodeReader
 import com.xhstormr.ssqr.App.args
 import java.awt.image.BufferedImage
-import java.util.*
+import java.util.Base64
 
 object SSQR {
-    private val HINTS: Map<DecodeHintType, Any> = mapOf(
-            DecodeHintType.PURE_BARCODE to true,
-            DecodeHintType.CHARACTER_SET to "UTF-8",
-            DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
+
+    private val HINTS = mapOf(
+        DecodeHintType.PURE_BARCODE to true,
+        DecodeHintType.CHARACTER_SET to "UTF-8",
+        DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
     )
-    private val GSON: Gson = GsonBuilder()
-            .setPrettyPrinting()
-            .serializeNulls()
-            .create()
+
+    private val GSON = GsonBuilder()
+        .setPrettyPrinting()
+        .serializeNulls()
+        .create()
 
     fun decodeQRCode(image: BufferedImage) {
 
@@ -32,29 +33,29 @@ object SSQR {
         image.flush()
 
         when {
-            args.contains("-ss") -> parseShadowsocks(result)
-            args.contains("-v2ray") -> parseV2Ray(result)
+            args.contains("-ss") -> println(parseShadowsocks(result))
+            args.contains("-v2ray") -> println(parseV2Ray(result))
             else -> println(result)
         }
     }
 
-    private fun parseV2Ray(text: String) {
+    private fun parseV2Ray(text: String): String {
         val json = text
-                .substring(8)
-                .decodeBase64()
-                .trim()
+            .substring(8)
+            .decodeBase64()
+            .trim()
 
         val server = GSON.fromJson(json, Any::class.java)
 
-        println(GSON.toJson(server))
+        return GSON.toJson(server)
     }
 
-    private fun parseShadowsocks(text: String) {
+    private fun parseShadowsocks(text: String): String {
         val list = text
-                .substring(5)
-                .decodeBase64()
-                .trim()
-                .split(':')
+            .substring(5)
+            .decodeBase64()
+            .trim()
+            .split(':')
 
         val split = list[1].split('@')
 
@@ -63,22 +64,22 @@ object SSQR {
         val password = split[0]
         val address = split[1]
 
-        if (args.contains("-json")) {
-            val server = ShadowsocksServer(
+        return if (args.contains("-json")) {
+            GSON.toJson(
+                ShadowsocksServer(
                     address,
                     port.toInt(),
                     method,
                     password
+                )
             )
-            println(GSON.toJson(server))
         } else {
-            println("""
-                address:  $address
-                port:     $port
-                method:   $method
-                password: $password
-                """.trimIndent()
-            )
+            """
+            address:  $address
+            port:     $port
+            method:   $method
+            password: $password
+            """.trimIndent()
         }
     }
 

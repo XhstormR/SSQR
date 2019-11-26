@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
+import java.util.UUID
 import javax.imageio.ImageIO
 
 /**
@@ -14,8 +14,6 @@ import javax.imageio.ImageIO
  * @create 2018/6/16 17:57
  */
 object OCR {
-    private val JSONPARSER = JsonParser()
-
     private const val URL = "https://api.ocr.space/parse/image"
     private const val NEWLINE = "\n"
     private const val FILELINE = """Content-Disposition: form-data; filename="123.png"$NEWLINE$NEWLINE"""
@@ -37,17 +35,18 @@ object OCR {
             sendFile(image, it)
             it.write(boundaryLine.toByteArray())
         }
-        val jsonElement = JSONPARSER.parse(connection.inputStream.bufferedReader())
+        val jsonElement = JsonParser.parseReader(connection.inputStream.bufferedReader())
         connection.disconnect()
 
-        print(jsonElement.asJsonObject
-                .getAsJsonArray("ParsedResults")[0].asJsonObject
-                .getAsJsonPrimitive("ParsedText").asString)
+        val text = jsonElement.asJsonObject
+            .getAsJsonArray("ParsedResults")[0].asJsonObject
+            .getAsJsonPrimitive("ParsedText").asString
+        println(text)
     }
 
     private fun sendFile(image: BufferedImage, out: OutputStream) {
         out.write(FILELINE.toByteArray())
-//      Files.copy(Paths.get("123.png"), out)
+//      Files.copy(Path.of("123.png"), out)
         ImageIO.write(image, "png", out)
         out.write(NEWLINE.toByteArray())
     }

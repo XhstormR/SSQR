@@ -1,21 +1,23 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+group = "com.xhstormr.ssqr"
 version = "1.0-SNAPSHOT"
 
 plugins {
     idea
     application
-    kotlin("jvm") version "1.3.10"
+    kotlin("jvm") version "1.3.60"
+    id("org.jlleitschuh.gradle.ktlint") version "9.1.1"
 }
 
 repositories {
-    jcenter()
+    maven("https://maven.aliyun.com/repository/central")
 }
 
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    compile("com.google.zxing:core:+")
-    compile("com.google.code.gson:gson:+")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("com.google.zxing:core:+")
+    implementation("com.google.code.gson:gson:+")
 }
 
 tasks {
@@ -31,30 +33,32 @@ tasks {
         buildDir
                 .resolve("tmp").apply { mkdirs() }
                 .resolve("1.txt").apply { createNewFile() }
-                .bufferedWriter().use { configurations.compile.forEach { s -> it.write("$s\n") } }
+                .bufferedWriter().use { configurations.runtimeClasspath.get().forEach { s -> it.write("$s\n") } }
     }
 
     withType<Jar> {
         dependsOn(beforeJar)
-        version = ""
         manifest.attributes["Main-Class"] = "com.xhstormr.ssqr.App"
         from(buildDir.resolve("tmp/1.txt").bufferedReader().readLines().map { zipTree(it) })
     }
 
     withType<Wrapper> {
-        gradleVersion = "4.10.1"
+        gradleVersion = "6.0"
         distributionType = Wrapper.DistributionType.ALL
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "12"
+            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=enable")
+        }
     }
 
     withType<JavaCompile> {
-        options.encoding = "UTF-8"
+        options.encoding = Charsets.UTF_8.name()
         options.isFork = true
         options.isIncremental = true
-        sourceCompatibility = JavaVersion.VERSION_11.toString()
-        targetCompatibility = JavaVersion.VERSION_11.toString()
+        sourceCompatibility = JavaVersion.VERSION_12.toString()
+        targetCompatibility = JavaVersion.VERSION_12.toString()
     }
 }

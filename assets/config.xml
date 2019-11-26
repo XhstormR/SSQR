@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch4jConfig>
     <headerType>console</headerType>
-    <jar>../build/libs/SSQR.jar</jar>
+    <jar>../build/libs/SSQR-1.0-SNAPSHOT.jar</jar>
     <outfile>../build/bin/SSQR.exe</outfile>
     <icon>icon.ico</icon>
     <chdir>.</chdir>
